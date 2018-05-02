@@ -1,0 +1,37 @@
+{% load bootstrap4 %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        {% bootstrap_css %}
+        {% bootstrap_javascript jquery='false' %}
+        {% bootstrap_messages %}
+        <title>Certificate it!</title>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <h1>Certificate management panel.</h1>
+            </div>
+            <div class="row">
+                <h3>
+                    Welcome {{ owner }}!
+                </h3>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    {% include "add_domain.html" %}
+                </div>
+                <div class="col-1"></div>
+                <div class="col-3">
+                    {% include "list_certificates.html" %}
+                </div>
+                <div class="col-1"></div>
+                <div class="col-4">
+                    {% include "save_certificate.html" %}
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

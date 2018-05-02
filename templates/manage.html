@@ -1,7 +1,0 @@
-<a href="{% url 'domains' %}">Domains</a> | <a href="../{{ domain_name }}">Certificates</a>
-{% block select  %}
-    <form action="/crt/" method="POST">
-        {% csrf_token %}
-        {{ certificate_manage_form }}
-    </form>
-{% endblock  %}
