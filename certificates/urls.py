@@ -3,7 +3,10 @@ from django.urls import path, re_path
 from . import views
 
 urlpatterns = [
-    path('', views.domains, name='domains'),
-    re_path(r'^[a-z0-9*-.]{3,64}/[0-9]+', views.manage, name='manage certificate'),
-    re_path(r'^[a-z0-9*-.]{3,64}', views.certificates, name='certificates'),
+    path('domains/', views.manage, {"domain_name":"home", "id":0}),
+    path('domains/<str:domain_name>/', views.manage, {"id":0}, name='domains' ),
+    path('domains/<str:domain_name>/<int:id>/', views.manage, name='certificates'),
+    path('add_domain/', views.add_domain, name='add_domain'),
+    path('add_certificate/<str:domain_name>/<int:id>',
+         views.add_certificte, name='add_certificate'),
 ]
