@@ -29,7 +29,9 @@
                 </div>
                 <div class="col-1"></div>
                 <div class="col-4">
-                    {% include "save_certificate.html" %}
+                    {% if domain_name != "home" %}
+                        {% include "save_certificate.html" %}
+                    {% endif %}
                 </div>
             </div>
         </div>
