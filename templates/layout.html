@@ -25,7 +25,9 @@
                 </div>
                 <div class="col-1"></div>
                 <div class="col-3">
-                    {% include "list_certificates.html" %}
+                    {% if domain_name != "home" %}
+                        {% include "list_certificates.html" %}
+                    {% endif %}
                 </div>
                 <div class="col-1"></div>
                 <div class="col-4">
