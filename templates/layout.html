@@ -25,11 +25,15 @@
                 </div>
                 <div class="col-1"></div>
                 <div class="col-3">
-                    {% include "list_certificates.html" %}
+                    {% if domain_name != "home" %}
+                        {% include "list_certificates.html" %}
+                    {% endif %}
                 </div>
                 <div class="col-1"></div>
                 <div class="col-4">
-                    {% include "save_certificate.html" %}
+                    {% if domain_name != "home" %}
+                        {% include "save_certificate.html" %}
+                    {% endif %}
                 </div>
             </div>
         </div>
