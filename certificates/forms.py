@@ -13,7 +13,9 @@ class DomainForm(forms.Form):
     )
     def clean(self):
         if not re.match('^((?=[a-z0-9-]{1,63}\.)([a-z0-9]+|[a-z0-9][a-z0-9-]*[a-z0-9])*\.)+([a-z]|xn--[a-z0-9-]+){2,63}$', self.cleaned_data.get('domain_name') ):
+            #print('BAD: ' + self.cleaned_data.get('domain_name'))
             raise forms.ValidationError('Invalid value: %s' % self.cleaned_data.get('domain_name'))
+        #print('OK: ' + self.cleaned_data.get('domain_name'))
         return self.cleaned_data
 
 class ManageForm(forms.Form):

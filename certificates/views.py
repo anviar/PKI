@@ -1,16 +1,10 @@
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse
 
 from .forms import DomainForm, CertificateForm
 from .models import Domain, Certificate
 
-# Validation domain name
-#def validate_domain(input_domain):
-#    if not re.match('^((?=[a-z0-9-]{1,63}\.)([a-z0-9]+|[a-z0-9][a-z0-9-]*[a-z0-9])*\.)+([a-z]|xn--[a-z0-9-]+){2,63}$', input_domain.replace('*.', '') ):
-#        raise ValidationError('Invalid value: %s' % input_domain)
-#        return False
-#    return True
 
 # Receive domain list for current user
 def domains(owner):
@@ -19,7 +13,7 @@ def domains(owner):
 # Add new domain
 def add_domain(request):
     
-    if request.POST:
+    if request.method == 'POST':
         domain = DomainForm(request.POST)
         if domain.is_valid():
             domain_name = domain.cleaned_data["domain_name"]
@@ -28,15 +22,7 @@ def add_domain(request):
             return HttpResponseRedirect(reverse("domains", args=(domain_name,)))
     else:
         domain = DomainForm()
-    return render(request, 'add_domain.html', {'form': domain})
-    
-    #if request.method == "POST":
-    #    domain = DomainForm(request.POST)
-    #    if domain.is_valid():
-    #        domain_name = domain.cleaned_data["domain_name"]
-    #        new_domain = Domain(owner='oleg', domain_name = domain_name)
-    #        new_domain.save()
-    #        return HttpResponseRedirect(reverse("domains", args=(domain_name,)))
+    return render(request, 'add_domain.html', {'form': DomainForm()})
 
 #Receive certificate list for domain
 def certificates(domain_name):
