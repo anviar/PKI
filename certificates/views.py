@@ -1,28 +1,31 @@
-from django.http import HttpResponseRedirect
-from django.shortcuts import render, redirect
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import render
 from django.urls import reverse
 
 from .forms import DomainForm, CertificateForm
 from .models import Domain, Certificate
 
-
 # Receive domain list for current user
 def domains(owner):
     return {'domains':[domain for domain in Domain.objects.filter(owner=owner)]}
 
+    
 # Add new domain
 def add_domain(request):
-    
-    if request.method == 'POST':
+
+    if request.method == "POST":
+        domain_name = '0'
         domain = DomainForm(request.POST)
         if domain.is_valid():
             domain_name = domain.cleaned_data["domain_name"]
+            #validate_domain(domain_name)
             new_domain = Domain(owner='oleg', domain_name = domain_name)
             new_domain.save()
-            return HttpResponseRedirect(reverse("domains", args=(domain_name,)))
-    else:
-        domain = DomainForm()
-    return render(request, 'add_domain.html', {'form': DomainForm()})
+        return HttpResponseRedirect(reverse("domains", args=(domain_name,)))
+        #else:
+            #domain = DomainForm()
+            #return render(request, 'add_domain.html', {'domain_form': DomainForm()})
+
 
 #Receive certificate list for domain
 def certificates(domain_name):
