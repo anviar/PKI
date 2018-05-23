@@ -1,4 +1,0 @@
-Add domain validation.
-
-Validation example by anviar:
-def valid_domain(input_domain): if not re.match('''^((?=[a-z0-9-]{1,63}\.) ( [a-z0-9]+ |[a-z0-9][a-z0-9-]*[a-z0-9])*\. )+([a-z]|xn--[a-z0-9-]+){2,63}$''', input_domain.replace('*.', ''), re.VERBOSE): raise ArgumentTypeError('Неправильный ввод домена %s') return input_domain

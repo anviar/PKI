@@ -9,7 +9,7 @@ from .models import Domain, Certificate
 # Receive domain list for current user
 def domains(owner):
     return {'domains':[domain for domain in Domain.objects.filter(owner=owner)]}
-    
+
 # Add new domain
 def add_domain(request):
 
