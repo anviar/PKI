@@ -5,6 +5,7 @@ from django.urls import reverse
 from .forms import DomainForm, CertificateForm
 from .models import Domain, Certificate
 
+
 # Receive domain list for current user
 def domains(owner):
     return {'domains':[domain for domain in Domain.objects.filter(owner=owner)]}
@@ -18,7 +19,10 @@ def add_domain(request):
             domain_name = domain.cleaned_data["domain_name"]
             new_domain = Domain(owner='oleg', domain_name = domain_name)
             new_domain.save()
-        return HttpResponseRedirect(reverse("domains", args=(domain_name,)))
+            return HttpResponseRedirect(reverse("domains", args=(domain_name,)))
+        else:
+            context = {'domain_form':domain, 'domain_name':0, "certificate_id":0}
+            return render(request, "layout.html", context)
 
 #Receive certificate list for domain
 def certificates(domain_name):
