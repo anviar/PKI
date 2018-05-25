@@ -1,0 +1,32 @@
+{% extends "certificate/layout.html" %}
+{% load bootstrap4 %}
+
+{% block base %}
+
+    <h3>Welcome dear {{ owner }}</h3>
+
+    <h4>Certificate list for <b>{{ domain_name }}</b>:</h4>
+    <div class="row">
+        <div class="col-1"></div>
+        <ul class="col-3">
+          {% for cert in certificates %}
+              <li>
+                  <a href={% url "certificate"  domain_name cert.id%}>
+                      {{ cert }}
+                  </a>
+              </li>
+          {% endfor %}
+        </ul>
+        <div class="col-4">
+            <a
+                    style="display: block; background-color: deepskyblue;text-align: center;color: aliceblue;
+                     margin:50px 0 0 0; padding:10px; font-weight:15px; font-weight: 900; width:185px; border-radius: 15px  "
+                    href={% url "certificate"  domain_name 0 %}>
+                Add new certificate
+            </a>
+        </div>
+
+        </form>
+    </div>
+
+{%  endblock %}

@@ -1,0 +1,32 @@
+{% load bootstrap4 %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        {% bootstrap_css %}
+        {% bootstrap_javascript jquery='false' %}
+        {% bootstrap_messages %}
+        <title>Certificate it!</title>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row" style="background-color: black;color:white; text-indent: 15px">
+                <h1>Certificate management panel.</h1>
+            </div>
+            <div class="row">
+                <a href= {% url "domains" %}> Domains >> </a>
+
+                {%  if domain_name %}
+                    <a href= {% url "certificates" domain_name %}>&nbsp{{ domain_name }} >> </a>
+                {% endif %}
+                {% if cert_id %}
+                    <a href= {% url "certificate" domain_name cert_id %}>&nbsp{{ cert_id }} </a>
+                {% endif %}
+            </div>
+        {% block base %}
+
+        {% endblock %}
+        </div>
+    </body>
+</html>
