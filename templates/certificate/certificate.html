@@ -1,0 +1,18 @@
+{% extends "certificate/layout.html" %}
+{% load bootstrap4 %}
+
+{% block base %}
+
+    <h3>Welcome dear {{ owner }}</h3>
+
+    <div>
+        <form action={% url "certificate"  domain_name 0 %} method="POST">
+            {% csrf_token %}
+            {% for field in certificate_form %}
+                {% bootstrap_field field  %}
+            {%  endfor %}
+            {% bootstrap_button "Save" button_type="submit" button_class="btn-primary" %}
+        </form>
+    </div>
+
+{%  endblock %}

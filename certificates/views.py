@@ -1,53 +1,56 @@
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 
 from .forms import DomainForm, CertificateForm
 from .models import Domain, Certificate
 
 
-# Receive domain list for current user
-def domains(owner):
-    return {'domains':[domain for domain in Domain.objects.filter(owner=owner)]}
+def domains(request):
 
-# Add new domain
-def add_domain(request):
+    user = request.user
+    domain_form = DomainForm()
 
     if request.method == "POST":
-        domain = DomainForm(request.POST)
-        if domain.is_valid():
-            domain_name = domain.cleaned_data["domain_name"]
-            new_domain = Domain(owner='oleg', domain_name = domain_name)
-            new_domain.save()
-            return HttpResponseRedirect(reverse("domains", args=(domain_name,)))
+        dn = DomainForm(request.POST)
+        if dn.is_valid():
+            add_dn = Domain(owner=user, domain_name=dn.cleaned_data["domain_name"])
+            add_dn.save()
+            return HttpResponseRedirect(reverse("domains"))
         else:
-            context = {'domain_form':domain, 'domain_name':0, "certificate_id":0}
-            return render(request, "layout.html", context)
+            domain_form = dn
 
-#Receive certificate list for domain
-def certificates(domain_name):
-    return {'certificates':[certificate for certificate in Certificate.objects.filter(domain_name=domain_name)]}
+    domains_list = Domain.objects.filter(owner=user)
+    context = {"domain_form": domain_form, "owner": user, "domains": domains_list}
+    return render(request, "certificate/domains.html", context)
 
-# Add new certificate to domain
-def add_certificte(request, domain_name, id):
+
+def certificates(request, domain_name):
+
+    user = request.user
+    certs = [cert for cert in Certificate.objects.filter(domain_name=domain_name)]
+    context = {'certificates': certs, "domain_name": domain_name, "user": user}
+
+    return render(request, "certificate/certificates.html", context)
+
+
+def certificate(request, domain_name, cert_id):
+
+    user = request.user
+    certificate_form = CertificateForm()
 
     if request.method == "POST":
-        if id != 0:
-            certificate = Certificate.objects.get(id=id)
+        if cert_id != 0:
+            cert = get_object_or_404(Certificate, id=cert_id)
         else:
-            certificate = Certificate(domain_name=Domain.objects.get(domain_name=domain_name))
-        certificate_form = CertificateForm(request.POST, instance=certificate)
+            cert = Certificate(domain_name=Domain.objects.get(domain_name=domain_name))
+            cert.save()
+            cert_id = cert.id
+        certificate_form = CertificateForm(request.POST, instance=cert)
+
         if certificate_form.is_valid():
             certificate_form.save()
-        return HttpResponseRedirect(reverse("certificates", args=((domain_name, id ))))
+            return HttpResponseRedirect(reverse("certificate", args=(domain_name, cert_id)))
 
-# View for manage domains and certificates
-def manage(request, domain_name='', user='oleg', id=0):
-    context = {"domain_name":domain_name, "owner":user, "certificate_id":id}
-    context.update(domains(user))
-    context.update(certificates(domain_name))
-    if id !=0: certificate_form = CertificateForm.init_data(Certificate.objects.get(id=id))
-    else: certificate_form = CertificateForm()
-    context.update({"domain_form": DomainForm(), "certificate_form": certificate_form})
-
-    return render(request, "layout.html", context)
+    context = {'certificate_form': certificate_form, 'domain_name': domain_name, "owner": user}
+    return render(request, "certificate/certificate.html", context)

@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Domain(models.Model):
     domain_name = models.CharField(max_length=256, primary_key=True)
     owner = models.CharField(max_length=256, blank=True, null=True)
@@ -9,8 +10,9 @@ class Domain(models.Model):
     def __str__(self):
         return self.domain_name
 
+
 class Certificate(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     domain_name = models.ForeignKey(Domain, on_delete=models.CASCADE, db_index=False)
     private_key = models.TextField(blank=True, null=True)
     conf = models.TextField(blank=True, null=True)

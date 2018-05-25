@@ -1,9 +1,0 @@
-{% load bootstrap4 %}
-
-<form action={% url "add_certificate" domain_name certificate_id %} method="POST">
-    {% csrf_token %}
-	{% for field in certificate_form %}
-		{% bootstrap_field field %}
-	{% endfor %}
-    {% bootstrap_button "Save certificate" button_type="submit" %}
-</form>
