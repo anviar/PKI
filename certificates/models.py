@@ -12,7 +12,7 @@ class Domain(models.Model):
 
 
 class Certificate(models.Model):
-    id = models.AutoField(primary_key=True)
+    id = models.IntegerField(primary_key=True)
     domain_name = models.ForeignKey(Domain, on_delete=models.CASCADE, db_index=False)
     private_key = models.TextField(blank=True, null=True)
     conf = models.TextField(blank=True, null=True)
