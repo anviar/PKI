@@ -6,7 +6,7 @@
     <h3>Welcome dear {{ owner }}</h3>
 
     <div>
-        <form action={% url "certificate"  domain_name 0 %} method="POST">
+        <form action={% url "certificate"  domain_name cert_id %} method="POST">
             {% csrf_token %}
             {% for field in certificate_form %}
                 {% bootstrap_field field  %}
