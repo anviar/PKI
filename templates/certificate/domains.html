@@ -11,22 +11,32 @@
     <h4>Domain list:</h4>
     <div class="row">
         <div class="col-1"></div>
-        <ul class="col-3">
-          {% for domain in domains %}
-              <li>
-                  <a href={% url "certificates" domain.domain_name %}>
-                      {{ domain.domain_name }}
-                  </a>
-              </li>
-          {% endfor %}
-        </ul>
-        <form action={% url "domains" %} method="POST">
-           {% csrf_token %}
-            {% for field in domain_form %}
-                {% bootstrap_field field  %}
-            {%  endfor %}
-           {% bootstrap_button "Add domain" button_type="submit" button_class="btn-primary" %}
-        </form>
+		<div class='col-3'>
+			<table>
+			{% for domain in domains %}
+				<tr>
+					<td>
+						<a href="{% url 'certificates' domain.domain_name %}">
+							{{ domain.domain_name }}
+						</a>
+					</td>
+					<td>
+						<form action={% url "domains" %} method="DELETE">
+							{% csrf_token %}
+							<button type="submit" name='delbtn' value='{{ domain.domain_name }}' class="btn btn-sm btn-outline-danger">X</button>
+						</form>
+					</td>
+				</tr>
+			{% endfor %}
+			</table>
+			<form action={% url "domains" %} method="POST">
+			   {% csrf_token %}
+				{% for field in domain_form %}
+					{% bootstrap_field field  %}
+				{%  endfor %}
+			   {% bootstrap_button "Add domain" button_type="submit" button_class="btn-primary" %}
+			</form>
+		</div>
     </div>
 
 {%  endblock %}
