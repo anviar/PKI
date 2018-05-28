@@ -22,7 +22,7 @@ def generate_req(pkey: PKey, common_name: str):
     subj = req.get_subject()
     setattr(subj, "CN", common_name)
     req.set_pubkey(pkey)
-    req.sign(pkey, b"sha256")
+    req.sign(pkey, "sha256")
     req.verify(pkey)
 
     return req
