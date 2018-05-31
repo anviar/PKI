@@ -20,6 +20,10 @@ def domains(request):
             return HttpResponseRedirect(reverse("domains"))
         else:
             domain_form = dn
+            
+    if request.method == "GET":
+        del_domain = request.GET.get("delbtn")
+        Domain.objects.filter(domain_name=del_domain).delete()
 
     domains_list = Domain.objects.filter(owner=user)
     context = {"domain_form": domain_form, "owner": user, "domains": domains_list}
